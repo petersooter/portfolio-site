@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peter Sooter</title>
+<meta name="description" content="I build systems at the intersection of enterprise software and customer outcomes. Forward-deployed engineer based in Atlanta, GA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090C10;
+    --bg2: #0F1419;
+    --bg3: #161C24;
+    --text: #CDD9E5;
+    --muted: #768390;
+    --faint: #2D333B;
+    --accent: #4ECDC4;
+    --amber: #F6C90E;
+    --red: #FF6B6B;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── Grid texture ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(78,205,196,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(78,205,196,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--faint);
+    background: rgba(9,12,16,0.85);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--muted); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── Sections ── */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── Hero ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  .hero-eyebrow::before {
+    content: '// ';
+    color: var(--muted);
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: #E2EEF6;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  h1 .accent { color: var(--accent); }
+
+  .hero-tagline {
+    font-size: clamp(14px, 2vw, 17px);
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.35s;
+  }
+
+  .hero-tagline strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.5s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-decoration: none;
+    border: 1px solid;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--faint);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--text);
+  }
+
+  /* ── Stats strip ── */
+  #stats {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    border: 1px solid var(--faint);
+  }
+
+  .stat-item {
+    padding: 2rem;
+    border-right: 1px solid var(--faint);
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: var(--sans);
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Section headings ── */
+  .section-header {
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .section-tag::before { content: '// '; color: var(--muted); }
+
+  h2 {
+    font-family: var(--sans);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: #E2EEF6;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Projects ── */
+  #projects {
+    padding: 5rem 2rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--faint);
+    border: 1px solid var(--faint);
+  }
+
+  .project-card {
+    background: var(--bg2);
+    padding: 2rem;
+    transition: background 0.2s;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card:hover { background: var(--bg3); }
+
+  .project-card.featured {
+    grid-column: 1 / -1;
+    background: var(--bg3);
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .project-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .project-label.amber { color: var(--amber); }
+
+  .project-name {
+    font-family: var(--sans);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #E2EEF6;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    background: var(--faint);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .project-link {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .project-link:hover { color: #E2EEF6; }
+
+  .project-link::after { content: ' →'; }
+
+  /* ── Stack ── */
+  #stack {
+    padding: 5rem 2rem;
+  }
+
+  .stack-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .stack-group {
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .stack-group-label {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--faint);
+  }
+
+  .stack-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .stack-item {
+    font-size: 13px;
+    color: var(--text);
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(45,51,59,0.5);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .stack-item::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--faint);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── About strip ── */
+  #about {
+    padding: 5rem 2rem;
+  }
+
+  .about-inner {
+    border: 1px solid var(--faint);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .about-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .about-text p + p { margin-top: 1rem; }
+
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  .about-details { }
+
+  .detail-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--faint);
+    font-size: 12px;
+  }
+
+  .detail-key {
+    color: var(--muted);
+    min-width: 80px;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+
+  .detail-val { color: var(--text); }
+
+  .detail-val a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .detail-val a:hover { text-decoration: underline; }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--faint);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  footer a:hover { color: var(--accent); }
+
+  .footer-links { display: flex; gap: 1.5rem; }
+
+  /* ── Cursor blink ── */
+  .cursor {
+    display: inline-block;
+    width: 3px;
+    height: 0.85em;
+    background: var(--accent);
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+
+  /* ── Scroll reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .about-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--faint); }
+    .stat-item:last-child { border-bottom: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/"><span>~/</span>petersooter</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://github.com/petersooter" target="_blank" rel="noopener">GitHub</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-eyebrow">Forward-deployed engineer &amp; CS infrastructure architect</p>
+  <h1>Peter<br>Sooter<span class="accent">.</span><span class="cursor"></span></h1>
+  <p class="hero-tagline">
+    <strong>I build systems at the intersection of enterprise software and customer outcomes.</strong>
+    I don't manage customers. I build the automation that does it, then focus entirely
+    on judgment and relationships. Based in Atlanta, GA. Fluent in English, Portuguese, and Spanish.
+  </p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary" href="https://github.com/petersooter/leaf-brain" target="_blank" rel="noopener">leaf-brain on GitHub</a>
+    <a class="btn btn-secondary" href="https://www.linkedin.com/in/peter-sooter-51254935/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <div class="stat-num">16</div>
+      <div class="stat-label">Scheduled agents</div>
+    </div>
+    <div class="stat-item reveal" style="animation-delay:0.1s">
+      <div class="stat-num">40+</div>
+      <div class="stat-label">Hours/week recovered</div>
+    </div>
+    <div class="stat-item reveal" style="animation-delay:0.2s">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">Claude Code skills</div>
+    </div>
+    <div class="stat-item reveal" style="animation-delay:0.3s">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Years enterprise CS</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-tag">proof of work</span>
+    <h2>What I've built</h2>
+  </div>
+
+  <div class="projects-grid">
+
+    <div class="project-card featured reveal">
+      <div class="project-label">flagship</div>
+      <div class="project-name">leaf-brain</div>
+      <p class="project-desc">
+        Autonomous AI operating system for Customer Success. 16 scheduled agents run via macOS launchd,
+        integrating Gmail, Calendar, Slack, Granola, Salesforce, and Google Sheets.
+        At its core: a 7-signal composite churn scoring model and K-Shape Divergence framework
+        for early account trajectory detection. Eliminated 40+ hours/week of manual processing.
+      </p>
+      <div class="project-stack">
+        <span class="tag">Python</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">launchd</span>
+        <span class="tag">Google Sheets</span>
+        <span class="tag">Salesforce</span>
+        <span class="tag">Slack</span>
+        <span class="tag">Granola</span>
+      </div>
+      <a class="project-link" href="https://github.com/petersooter/leaf-brain" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+
+    <div class="project-card reveal" style="animation-delay:0.1s">
+      <div class="project-label amber">churn intelligence</div>
+      <div class="project-name">customer-health-os</div>
+      <p class="project-desc">
+        Python implementation of the 7-signal churn scoring model powering leaf-brain.
+        Accepts a CSV of account signals, outputs risk scores, confidence levels,
+        and recommended interventions. Calibrated against real post-mortems.
+      </p>
+      <div class="project-stack">
+        <span class="tag">Python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">scikit-learn</span>
+      </div>
+      <a class="project-link" href="https://github.com/petersooter/customer-health-os" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+
+    <div class="project-card reveal" style="animation-delay:0.2s">
+      <div class="project-label amber">trajectory analysis</div>
+      <div class="project-name">k-shape-divergence</div>
+      <p class="project-desc">
+        Account trajectory analysis module. Takes engagement timeseries data and classifies
+        accounts as accelerating toward value or stalling toward churn,
+        within the first 60 days, before divergence becomes irreversible.
+      </p>
+      <div class="project-stack">
+        <span class="tag">Python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">numpy</span>
+      </div>
+      <a class="project-link" href="https://github.com/petersooter/k-shape-divergence" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+
+    <div class="project-card reveal" style="animation-delay:0.3s">
+      <div class="project-label">data engineering</div>
+      <div class="project-name">automotive-etl-pipeline</div>
+      <p class="project-desc">
+        Production ETL pipeline for a global automotive manufacturer. Ingests complex daily
+        data dumps from multiple source formats, normalizes and transforms into
+        production-ready analytical datasets. Handles schema inconsistencies,
+        failed delivery recovery, and incremental loading.
+      </p>
+      <div class="project-stack">
+        <span class="tag">Python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">SQL</span>
+      </div>
+      <a class="project-link" href="https://github.com/petersooter/automotive-etl-pipeline" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="section-header reveal">
+    <span class="section-tag">technical profile</span>
+    <h2>Stack</h2>
+  </div>
+  <div class="stack-groups">
+    <div class="stack-group reveal">
+      <div class="stack-group-label">Languages &amp; Data</div>
+      <div class="stack-items">
+        <span class="stack-item">Python</span>
+        <span class="stack-item">SQL</span>
+        <span class="stack-item">JavaScript</span>
+        <span class="stack-item">Bash / Shell</span>
+      </div>
+    </div>
+    <div class="stack-group reveal" style="animation-delay:0.1s">
+      <div class="stack-group-label">AI &amp; Automation</div>
+      <div class="stack-items">
+        <span class="stack-item">Claude API / Claude Code</span>
+        <span class="stack-item">n8n</span>
+        <span class="stack-item">FastAPI</span>
+        <span class="stack-item">REST APIs / Webhooks</span>
+      </div>
+    </div>
+    <div class="stack-group reveal" style="animation-delay:0.2s">
+      <div class="stack-group-label">Data &amp; Analytics</div>
+      <div class="stack-items">
+        <span class="stack-item">Power BI</span>
+        <span class="stack-item">Tableau</span>
+        <span class="stack-item">MongoDB</span>
+        <span class="stack-item">AWS Athena</span>
+      </div>
+    </div>
+    <div class="stack-group reveal" style="animation-delay:0.3s">
+      <div class="stack-group-label">Infrastructure</div>
+      <div class="stack-items">
+        <span class="stack-item">Docker</span>
+        <span class="stack-item">Azure</span>
+        <span class="stack-item">macOS launchd</span>
+        <span class="stack-item">Git / GitHub</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-tag">background</span>
+    <h2>About</h2>
+  </div>
+  <div class="about-inner reveal">
+    <div class="about-text">
+      <p>
+        15+ years running enterprise CS and technical operations across SaaS, agtech,
+        and CX platforms. The through-line isn't the industry. It's always been the same:
+        diagnose what's broken operationally, build the infrastructure to fix it,
+        make it run without babysitting.
+      </p>
+      <p>
+        At <strong>Worthix</strong> I built the full CS org from zero: 30+ CSMs,
+        the training curriculum, the health scoring system, and the Power BI dashboards
+        that replaced 5 weekly status meetings. At <strong>Leaf Agriculture</strong>
+        I inherited a manual operation and built leaf-brain. The work is always the same.
+        Figure out what shouldn't require a human, then build the thing that doesn't.
+      </p>
+      <p>
+        Trilingual: English, Portuguese, Spanish.
+      </p>
+    </div>
+    <div class="about-details">
+      <div class="detail-row">
+        <span class="detail-key">location</span>
+        <span class="detail-val">Atlanta, GA</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">languages</span>
+        <span class="detail-val">EN / PT / ES</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">focus</span>
+        <span class="detail-val">FDE, RevOps, Technical CS</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">github</span>
+        <span class="detail-val"><a href="https://github.com/petersooter" target="_blank" rel="noopener">github.com/petersooter</a></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">linkedin</span>
+        <span class="detail-val"><a href="https://www.linkedin.com/in/peter-sooter-51254935/" target="_blank" rel="noopener">peter-sooter</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Peter Sooter &copy; 2026</span>
+  <div class="footer-links">
+    <a href="https://github.com/petersooter" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/peter-sooter-51254935/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
